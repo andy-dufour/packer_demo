@@ -1,0 +1,25 @@
+{
+    "builders":[{
+        "type": "docker",
+        "image": "ubuntu",
+        "export_path": "image.tar"
+    }],
+    "provisioners":[
+        {
+            "type": "shell",
+            "inline": ["apt-get -y update; apt-get install -y curl"]
+        },
+        {
+            "type": "chef-solo",
+            "cookbook_paths": ["/opt/packer-build/cookbooks"],
+            "run_list": ["<%= node['packer_demo']['cookbook_name'] %>"]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "docker-import",
+            "repository": "<%= node['packer_demo']['docker_name'] =%>",
+            "tag": "0.1"
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+---
+driver:
+  name: vagrant
+  customize:
+    cpus: 1
+    memory: 1024
+
+provisioner:
+  name: chef_zero
+  chef_omnibus_install_options: -P chefdk
+  chef_omnibus_root: /opt/chefdk
+  
+platforms:
+  - name: ubuntu-14.04
+
+suites:
+  - name: default
+    run_list:
+      - recipe[packer_demo::default]
+    attributes:
